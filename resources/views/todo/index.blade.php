@@ -23,7 +23,8 @@
         <td class="align-middle">{{ $todo->updated_at }}</td>
         <td><a class="btn btn-primary" href="{{route('todo.edit', $todo->id) }}">編集</a></td> <!-- routeメソッドでurlを取得し$todo->idで対象のtodoのidカラムを持ったeditファイルへ遷移 -->
         <td>
-          {!! Form::open(['route' => ['todo.destroy', $todo->id], 'method' => 'DELETE']) !!}
+          {!! Form::open(['route' => ['todo.destroy', $todo->id], 'method' => 'DELETE']) !!} <!-- CSRF対策でnameにtokenを持ったinputタグが生成される  -->
+          <!-- 引数は配列のみ。['route' => 'ルーティングのname' ]で飛ばす先を指定-->
             {!! Form::submit('削除', ['class' => 'btn btn-danger']) !!}
           {!! Form::close() !!}
         </td>

@@ -10,7 +10,7 @@ namespace App\Http\Controllers; //ディレクトリ階層を教えてくれる
 */
 
 use Illuminate\Http\Request; //Requestクラスを使用可能にする
-use App\Todo; // app/Todo.php(zzzzzzzzzzzzzzzzzz)のTodoクラスを使用可能にする
+use App\Todo; // app/Todo.php(モデル)のTodoクラスを使用可能にする
 /**useを使うことで深い名前空間のクラスをエイリアス（別名）を使って短く記述できる
  * use App\Todo→一番階層が浅いクラスが使える
  * useでこのファイルで使うクラスを指定する
@@ -31,11 +31,13 @@ class TodoController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     * コメント 本来はメソッドの返り値を記述しジャンプで確認できるようにする
      */
     public function index()
     {
         $todos = $this->todo->all(); //テーブルの値を全件取得 todo=Todoクラス
         return view('todo.index', compact('todos')); //todoディレクトリのindex.blade.phpファイルにtodosを渡す。→ビューファイルで変数が使える
+        // viewメソッド:
     }
 
     /**
@@ -45,21 +47,23 @@ class TodoController extends Controller
      */
     public function create()
     {
-        return view('todo.create');
+        return view('todo.create'); //todoディレクトリのcreateファイルを呼ぶ ヘルパーメソッド
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request  $request //コメント引数
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) //DBに値を格納するための処理
     { //Request $requestでformタグで送信したPOST情報を受け取れる
         $input = $request->all(); //POSTで受け取った値全件取得
+        // dd($input);
         //dd($input); デバッグ inputの中身を確認
         $this->todo->fill($input)->save(); //fill：引数を設定できるか確認 saveメソッドで値を保存
-        return redirect()->to('todo'); //一覧画面に遷移
+        // fillメソッドでモデルのfillableで指定したカラムのみを送るように確認（フィルターの役割）
+        return redirect()->to('todo'); //一覧画面に遷移 引数はuri
     }
 
     /**
@@ -108,7 +112,6 @@ class TodoController extends Controller
     public function destroy($id)
     {
         $this->todo->find($id)->delete(); //findでパラメーターのidを取得し、DBから削除する
-        return redirect()->to('todo');
+        return redirect()->to('todo'); //調べる
     }
 }
-
