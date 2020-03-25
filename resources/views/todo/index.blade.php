@@ -17,12 +17,14 @@
   </thead>
   <tbody>
     @foreach ($todos as $todo)
-      <tr> <!-- variable(変数)->カラム名でそのカラムの値を取得できる -->
+      <tr> <!-- variable(変数)->カラム名でそのカラムの値を取得できる。アロー演算子を使う理由はall()で取得した値はcollectionインスタンスで取得されるため -->
+      <!-- 波括弧2つは変数をエスケープ タグとかを文字として出力する=  クロスサイトスクリプティング対策 htmlspecialchars関数を呼んでくれる-->
         <td class="align-middle">{{ $todo->title }}</td>
         <td class="align-middle">{{ $todo->created_at }}</td>
         <td class="align-middle">{{ $todo->updated_at }}</td>
         <td><a class="btn btn-primary" href="{{route('todo.edit', $todo->id) }}">編集</a></td> <!-- routeメソッドでurlを取得し$todo->idで対象のtodoのidカラムを持ったeditファイルへ遷移 -->
         <td>
+            <!-- !!は変数を(タグなど)エスケープせずに出力。つまりタグを出力 -->
           {!! Form::open(['route' => ['todo.destroy', $todo->id], 'method' => 'DELETE']) !!} <!-- CSRF対策でnameにtokenを持ったinputタグが生成される  -->
           <!-- 引数は配列のみ。['route' => 'ルーティングのname' ]で飛ばす先を指定-->
             {!! Form::submit('削除', ['class' => 'btn btn-danger']) !!}

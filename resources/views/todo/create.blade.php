@@ -7,7 +7,7 @@
       <!-- 入力フィールドを作成する 
         第一引数 type
         第二引数 name
-        第三引数 フィールド初期値
+        第三引数 value フィールド初期値
         第四引数 reqired(必須かどうか)やクラス等
         -->
     {!! Form::input('text', 'title', null, ['required', 'class' => 'form-control', 'placeholder' => 'ToDo内容']) !!}
