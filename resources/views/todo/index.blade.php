@@ -16,7 +16,7 @@
     </tr>
   </thead>
   <tbody>
-    @foreach ($todos as $todo)
+    @foreach ($todos as $todo) <!-- ここでの$todos = collection --  >
       <tr> <!-- variable(変数)->カラム名でそのカラムの値を取得できる。アロー演算子を使う理由はall()で取得した値はcollectionインスタンスで取得されるため -->
       <!-- 波括弧2つは変数をエスケープ タグとかを文字として出力する=  クロスサイトスクリプティング対策 htmlspecialchars関数を呼んでくれる-->
         <td class="align-middle">{{ $todo->title }}</td>

@@ -19,6 +19,8 @@ use App\Todo; // app/Todo.php(モデル)のTodoクラスを使用可能にする
 class TodoController extends Controller
 {
 // eloquentとはテーブル上のレコードをオブジェクトに対応させ操作や指定をできるようにする
+// モデルに結びついたeloquentクエリの返り値はcollectionオブジェクト
+// timestanpなどの更新は自動的にeloquentが行っている
 
     private $todo; //このクラス内でしか使えない変数 $todo = '';の略。呼び出すときは$を取る
 
@@ -41,6 +43,7 @@ class TodoController extends Controller
     public function index()
     {
         $todos = $this->todo->all(); // all()の返り値はコレクションクラス Todoクラスの中身を全件取得 配列で取得しない todo=Todoクラス
+        
         // dd($todos); //collectionインスタンスの確認
         //Todoクラスの中身が確認できる。テーブルのカラムと値はoriginalに格納されている
         return view('todo.index', compact('todos')); //todoディレクトリのindex.blade.phpファイルにtodosを渡す。→ビューファイルで変数が使える
@@ -74,7 +77,7 @@ class TodoController extends Controller
     { //Request $requestでformタグで送信したPOST情報を受け取れる
         $input = $request->all(); //POSTで受け取った値全件取得
         //dd($input); デバッグ inputの中身を確認
-        $this->todo->fill($input)->save(); //fill：引数を設定できるか確認 saveメソッドで値を保存
+        $this->todo->fill($input)->save(); //fill：引数を設定できるか確認 saveメソッドで値を保存。saveメソッドの返り値はtrueかfalse
         // fillメソッドでモデルのfillableで指定したカラムのみを送るように確認（フィルターの役割）
         return redirect()->to('todo'); //一覧画面に遷移 引数はuri
     }
@@ -100,8 +103,9 @@ class TodoController extends Controller
     { //urlの$idに対応したレコード取得
         $todo = $this->todo->find($id); //findの返り値は引数に$idを持ったtodoモデル（オブジェクト）（レコード取得）
         // dd($todo);
+        // dd(compact('todo'));
         return view('todo.edit', compact('todo')); //変数todoから配列を作成
-        // viewヘルパ(bladeのファイル名, 第二引数に渡したい値)
+        // viewヘルパ(bladeのファイル名, 第二引数に渡したい値　配列)
     }
 
     /**
@@ -116,7 +120,7 @@ class TodoController extends Controller
         $input = $request->all(); //ビューのinputで渡ってきた値を配列で取得
         // dd($input);
         $this->todo->find($id)->fill($input)->save(); //findでパラメーターのidを取得し、fillで確認し、保存
-        // fillで複数代入を防ぐ。 検証ツールなどでinputを故意的に増やされた時、他のカラムに値を入れないように fillで入力カラムを指定している
+        // fillで複数代入を防ぐ。 fill時に値を書き換え 検証ツールなどでinputを故意的に増やされた時、他のカラムに値を入れないように fillで入力カラムを指定している
         return redirect()->to('todo');
     }
 
@@ -129,6 +133,7 @@ class TodoController extends Controller
     public function destroy($id)
     {
         $this->todo->find($id)->delete(); //findでパラメーターのidを取得し、DBから削除する
+        // deleteメソッドの返り値は数値
         return redirect()->to('todo'); // redirect('todo')と同じ 可読性をあげるためこの書き方
     }
 }

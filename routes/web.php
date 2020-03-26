@@ -22,3 +22,7 @@ Route::resource('todo', 'TodoController');
 /** routelistのuri todoに遷移 TodoControllerを呼び出す
  * resourceメソッドでcontrollerのcrudアクションへのルートを割り振ってくれる
 */
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

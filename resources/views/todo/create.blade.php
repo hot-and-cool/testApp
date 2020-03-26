@@ -17,4 +17,3 @@
   {!! Form::submit('追加', ['class' => 'btn btn-success float-right']) !!}
 {!! Form::close() !!}
 @endsection
-
