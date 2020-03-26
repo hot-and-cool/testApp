@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+// AuthenticatesUsersを呼び出しこのクラスで使用可能にする
+
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -20,12 +23,14 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
+    protected $maxAttempts = 2; //3回ログイン情報ミスると1分ログインできなくする
+
     /**
      * Where to redirect users after login.
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/todo'; // ログイン後/todoに飛ばす
 
     /**
      * Create a new controller instance.
@@ -35,5 +40,11 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    // ログアウト後にログイン画面に遷移させるメソッド
+    protected function loggedOut(Request $request)
+    {
+        return redirect('/login');
     }
 }

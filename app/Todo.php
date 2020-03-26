@@ -10,8 +10,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Todo extends Model //Modelクラスを継承したTodoクラス DBへの操作を可能にする
 {   //fillable定義している理由
-    protected $fillable = ['title']; //配列の値title(カラム)を変数に代入
+    protected $fillable = ['title','user_id']; //配列の値title(カラム)を変数に代入
     // titleカラムの値のみ受け付ける ホワイトリスト
     // ここで指定したカラムのみfillメソッドできる
     // guarededはブラックリストを設定
+
+
+    public function getByUserId($id)
+    {
+        return $this->where('user_id', $id)->get();
+    }
 }

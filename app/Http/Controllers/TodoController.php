@@ -16,10 +16,13 @@ use App\Todo; // app/Todo.php(モデル)のTodoクラスを使用可能にする
  * useでこのファイルで使うクラスを指定する
  */
 
+use Auth;
+
 class TodoController extends Controller
 {
-// eloquentとはテーブル上のレコードをオブジェクトに対応させ操作や指定をできるようにする
+// eloquentとはテーブル上のレコードをオブジェクトに対応させ操作や指定をできるようにするORM
 // モデルに結びついたeloquentクエリの返り値はcollectionオブジェクト
+// collectionオブジェクトの中にitemsプロパティがあり、それが配列になっている
 // timestanpなどの更新は自動的にeloquentが行っている
 
     private $todo; //このクラス内でしか使えない変数 $todo = '';の略。呼び出すときは$を取る
@@ -28,6 +31,12 @@ class TodoController extends Controller
     // private:定義したクラス内のみアクセスできる
     public function __construct(Todo $instanceClass) //マジックメソッド：todoコントローラーがインスタンス化されるときに自動的に呼ばれる関数
     {
+        $this->middleware('auth'); //継承したcontrollerクラスのmiddlewareメソッドを実行
+        //ミドルウェア:クライアントとサーバーの間にあるフィルターや中間処理
+        // 認証に必要なものはmiddlewareで定義
+
+
+
         // $instanceClasの中身はModelクラス+$fillable
         // dd($instanceClass); //これでTodoクラスのプロパティが覗ける
         // todoクラスが他のクラスに依存していると動作しないので↓の書き方にしている
@@ -42,8 +51,10 @@ class TodoController extends Controller
      */
     public function index()
     {
-        $todos = $this->todo->all(); // all()の返り値はコレクションクラス Todoクラスの中身を全件取得 配列で取得しない todo=Todoクラス
-        
+        // $todos = $this->todo->all(); // all()の返り値はコレクションクラス Todoクラスの中身を全件取得 配列で取得しない todo=Todoクラス
+        $todos = $this->todo->getByUserId(Auth::id());
+
+
         // dd($todos); //collectionインスタンスの確認
         //Todoクラスの中身が確認できる。テーブルのカラムと値はoriginalに格納されている
         return view('todo.index', compact('todos')); //todoディレクトリのindex.blade.phpファイルにtodosを渡す。→ビューファイルで変数が使える
@@ -77,6 +88,10 @@ class TodoController extends Controller
     { //Request $requestでformタグで送信したPOST情報を受け取れる
         $input = $request->all(); //POSTで受け取った値全件取得
         //dd($input); デバッグ inputの中身を確認
+
+        $input['user_id'] = Auth::id();
+        //ログインしているユーザーidをall()の返り値（配列）に追加
+
         $this->todo->fill($input)->save(); //fill：引数を設定できるか確認 saveメソッドで値を保存。saveメソッドの返り値はtrueかfalse
         // fillメソッドでモデルのfillableで指定したカラムのみを送るように確認（フィルターの役割）
         return redirect()->to('todo'); //一覧画面に遷移 引数はuri

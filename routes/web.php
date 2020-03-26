@@ -24,5 +24,6 @@ Route::resource('todo', 'TodoController');
 */
 
 Auth::routes();
+//Route::auth();でも良い
 
 Route::get('/home', 'HomeController@index')->name('home');
