@@ -17,8 +17,8 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (Auth::guard($guard)->check()) {
-            return redirect('/home');
+        if (Auth::guard($guard)->check()) { //もしログイン認証済みだったら
+            return redirect('/home'); //web.phpに飛ぶ
         }
 
         return $next($request);

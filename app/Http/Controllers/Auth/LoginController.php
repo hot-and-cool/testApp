@@ -24,6 +24,7 @@ class LoginController extends Controller
     use AuthenticatesUsers;
 
     protected $maxAttempts = 2; //3回ログイン情報ミスると1分ログインできなくする
+    //vendor下ThrottlesLogins.php内のmaxAttemptsメソッドをオーバーライド
 
     /**
      * Where to redirect users after login.

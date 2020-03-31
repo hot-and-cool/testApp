@@ -75,7 +75,6 @@ class TodoController extends Controller
     {
         return view('todo.create'); //todoディレクトリのcreateファイルを呼ぶ ヘルパーメソッド
     // viewヘルパ(bladeのファイル名, 第二引数に渡したい値)
-
     }
 
     /**
@@ -95,7 +94,7 @@ class TodoController extends Controller
         $this->todo->fill($input)->save(); //fill：引数を設定できるか確認 saveメソッドで値を保存。saveメソッドの返り値はtrueかfalse
         // fillメソッドでモデルのfillableで指定したカラムのみを送るように確認（フィルターの役割）
         return redirect()->to('todo'); //一覧画面に遷移 引数はuri
-    }   
+    }
 
     /**
      * Display the specified resource.
