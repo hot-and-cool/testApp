@@ -21,6 +21,6 @@ class RedirectIfAuthenticated
             return redirect('/home'); //web.phpに飛ぶ
         }
 
-        return $next($request);
+        return $next($request); //logoutできるようにする
     }
 }

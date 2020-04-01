@@ -12,7 +12,7 @@ class LoginController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
-    | Login Controller
+    | Login Controller 
     |--------------------------------------------------------------------------
     |
     | This controller handles authenticating users for the application and
@@ -23,7 +23,7 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
-    protected $maxAttempts = 2; //3回ログイン情報ミスると1分ログインできなくする
+    protected $maxAttempts = 3; //3回ログイン情報ミスると1分ログインできなくする
     //vendor下ThrottlesLogins.php内のmaxAttemptsメソッドをオーバーライド
 
     /**
@@ -40,7 +40,8 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('guest')->except('logout');//すでにログインしていたら/homeにリダイレクトする
+        // routenameのlogoutにはguestmiddlewareを使用しない
     }
 
     // ログアウト後にログイン画面に遷移させるメソッド

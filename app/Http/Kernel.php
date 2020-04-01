@@ -19,7 +19,7 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \App\Http\Middleware\TrustProxies::class,
-    ];
+    ]; //全部の処理に行われる
 
     /**
      * The application's route middleware groups.
@@ -35,7 +35,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class, //ユーザーの$tokenとsessionのtokenを比較
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-        ],
+        ], //
 
         'api' => [
             'throttle:60,1',
