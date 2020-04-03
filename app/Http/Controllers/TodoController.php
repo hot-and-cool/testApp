@@ -93,7 +93,7 @@ class TodoController extends Controller
 
         $this->todo->fill($input)->save(); //fill：引数を設定できるか確認 saveメソッドで値を保存。saveメソッドの返り値はtrueかfalse
         // fillメソッドでモデルのfillableで指定したカラムのみを送るように確認（フィルターの役割）
-        return redirect()->to('todo'); //一覧画面に遷移 引数はuri
+        return redirect()->route('todo.index'); //一覧画面に遷移 routeの引数はルートネーム
     }
 
     /**
@@ -135,7 +135,7 @@ class TodoController extends Controller
         // dd($input);
         $this->todo->find($id)->fill($input)->save(); //findでパラメーターのidを取得し、fillで確認し、保存
         // fillで複数代入を防ぐ。 fill時に値を書き換え 検証ツールなどでinputを故意的に増やされた時、他のカラムに値を入れないように fillで入力カラムを指定している
-        return redirect()->to('todo');
+        return redirect()->route('todo.index');
     }
 
     /**
@@ -148,6 +148,6 @@ class TodoController extends Controller
     {
         $this->todo->find($id)->delete(); //findでパラメーターのidを取得し、DBから削除する
         // deleteメソッドの返り値は数値
-        return redirect()->to('todo'); // redirect('todo')と同じ 可読性をあげるためこの書き方
+        return redirect()->route('todo.index');
     }
 }
