@@ -1,7 +1,7 @@
 @extends ('layouts.app')
 @section ('content')
 <!-- app.blade.phpのyield内に接続 -->
-<h1 class="page-header">ToDo一覧</h1>
+<h1 class="page-header">{{Auth::user()->name}}のTODO一覧</h1>
 <p class="text-right">
   <a class="btn btn-success" href="/todo/create">新規作成</a>
 </p>
