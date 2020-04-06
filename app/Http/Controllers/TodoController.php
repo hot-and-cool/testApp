@@ -53,11 +53,11 @@ class TodoController extends Controller
     {
         // $todos = $this->todo->all(); // all()の返り値はコレクションクラス Todoクラスの中身を全件取得 配列で取得しない todo=Todoクラス
         $todos = $this->todo->getByUserId(Auth::id());
-
+        $deleted = Todo::onlyTrashed()->get(); //論理削除した値を取得
 
         // dd($todos); //collectionインスタンスの確認
         //Todoクラスの中身が確認できる。テーブルのカラムと値はoriginalに格納されている
-        return view('todo.index', compact('todos')); //todoディレクトリのindex.blade.phpファイルにtodosを渡す。→ビューファイルで変数が使える
+        return view('todo.index', compact('todos' ,'deleted')); //todoディレクトリのindex.blade.phpファイルにtodosを渡す。→ビューファイルで変数が使える
         // viewヘルパ(bladeのファイル名, 第二引数に渡したい値)
         // compactメソッド:値から配列を作成してくれる 複数値があるときに可読性がよい
         // compactを使わない場合キー（'ビューで使う変数名'）とバリュー（$ビューに渡す値）を用意してあげる

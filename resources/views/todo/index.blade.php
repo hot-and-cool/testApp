@@ -35,5 +35,9 @@
       </tr>
     @endforeach
   </tbody>
+  <!-- 論理削除確認用 -->
+  <!-- @foreach ($deleted as $delete)
+    {{$delete->id}}
+  @endforeach -->
 </table>
 @endsection
